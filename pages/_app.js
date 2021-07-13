@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: sans-serif;
-    background-color: #D9E6F6;
+    background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp6953049.jpg&f=1&nofb=1);
   }
 
   #__next {
