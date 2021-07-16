@@ -1,4 +1,7 @@
 import React from 'react'
+import jwt from 'jsonwebtoken'
+import nookies from 'nookies'
+import {useRouter} from 'next/router'
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
 import {AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet} from "../src/lib/AlurakutCommons"
@@ -45,8 +48,8 @@ function ProfileRelationsBox(propriedades){
   )
 }
 
-export default function Home() {
-  const githubUser = 'robsongdev'
+export default function Home(props) {
+  const githubUser = props.githubUser
   const [comunidades, setComunidades] = React.useState([{
     id:'1234',
     title:'Eu odeio acordar cedo',
@@ -58,7 +61,7 @@ export default function Home() {
   React.useEffect(function(){
 
     //0 - Pegar array de dados do Github
-    fetch('https://api.github.com/users/robsongdev/following')
+    fetch(`https://api.github.com/users/${githubUser}/following`)
     .then(function(respostaDoServidor) {
       return respostaDoServidor.json()
     })
@@ -93,7 +96,7 @@ export default function Home() {
 
   return (
     <>
-      <AlurakutMenu githubUser='robsongdev'/>
+      <AlurakutMenu githubUser={githubUser}/>
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea'}}>
           <ProfileSideBar githubUser={githubUser}/>
@@ -199,4 +202,29 @@ export default function Home() {
       </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps (context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN
+  const {isAuthenticated} = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then((resposta)=> resposta.json())
+  
+  // if(!isAuthenticated){
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     }
+  //   }
+  // }
+  
+  const {githubUser}= jwt.decode(token)
+  return {
+    props: {githubUser},
+  }
 }
