@@ -3,7 +3,7 @@
 
 <p align="center">Criação do Alurakut, relembrando um pouco do orkut e passando pelas propriedades básicas do React e Next, além de uma integração com uma API criada pelo DatoCMS
   <br/>
-  Link do Projeto: <a href="alurakut-neon-psi.vercel.app" >Alurakut</a>
+  Link do Projeto: <a href="https://alurakut-neon-psi.vercel.app" >Alurakut</a>
 </p>
 
 
